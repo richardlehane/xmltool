@@ -43,7 +43,7 @@ var outdir = flag.String("outdir", "", "when fixing a directory, must supply pat
 
 var dir bool
 
-func fix(in string, out io.Writer) error {
+func fixIt(in string, out io.Writer) error {
 	inFile, err := os.Open(in)
 	if err != nil {
 		return err
@@ -85,7 +85,7 @@ func walkFix(root string, out string) error {
 				return err
 			}
 			outFile, err := os.Create(outpath)
-			err = fix(path, outFile)
+			err = fixIt(path, outFile)
 			if err != nil {
 				return err
 			}
@@ -96,7 +96,7 @@ func walkFix(root string, out string) error {
 	return filepath.Walk(root, walkFn)
 }
 
-func audit(a audit.Audit, in string) error {
+func auditIt(a audit.Audit, in string) error {
 	inFile, err := os.Open(in)
 	if err != nil {
 		return err
@@ -112,7 +112,7 @@ func walkAudit(a audit.Audit, root string) error {
 			return err
 		}
 		if filepath.Ext(path) == ".xml" {
-			return audit(a, path)
+			return auditIt(a, path)
 		}
 		return nil
 	}
@@ -139,7 +139,7 @@ func main() {
 			}
 		} else {
 			out := new(bytes.Buffer)
-			err = fix(*fixIn, out)
+			err = fixIt(*fixIn, out)
 			if err != nil {
 				log.Fatalf("Error fixing xml: %v", err)
 			}
@@ -155,7 +155,7 @@ func main() {
 	if afi.IsDir() {
 		err = walkAudit(a, *auditIn)
 	} else {
-		err = audit(a, *auditIn)
+		err = auditIt(a, *auditIn)
 	}
 	if err != nil {
 		log.Fatalf("Error auditing xml: %v", err)
