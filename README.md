@@ -9,3 +9,5 @@ Examples:
     ./xmltool -audit ~/Good -html > report.html
 
 Compile with `go install` or grab a binary from the Github releases.
+
+[![Build Status](https://travis-ci.org/richardlehane/xmltool.png?branch=master)](https://travis-ci.org/richardlehane/xmltool)
