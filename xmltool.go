@@ -38,6 +38,7 @@ import (
 
 var fixIn = flag.String("fix", "", "fix input XML file(s)")
 var auditIn = flag.String("audit", "", "perform audit function on input XML file(s)")
+var tagsIn = flag.String("tags", "", "the audit focuses on the contents of the input tags (comma-separated), use with -audit FILE")
 var html = flag.Bool("html", false, "output audit results as HTML")
 var outdir = flag.String("outdir", "", "when fixing a directory, must supply path to an output directory")
 
@@ -122,7 +123,7 @@ func walkAudit(a audit.Audit, root string) error {
 func main() {
 	flag.Parse()
 	if *fixIn == *auditIn {
-		log.Fatal("Invalid argument: must give EITHER a -fix or -audit argument, and not both")
+		log.Fatal("Invalid argument: must give a -fix FILE or -audit FILE argument")
 	}
 	if len(*fixIn) > 0 {
 		ffi, err := os.Stat(*fixIn)
@@ -147,7 +148,13 @@ func main() {
 		}
 		return
 	}
-	a := make(audit.Audit)
+	var a audit.Audit
+	if len(*tagsIn) > 0 {
+		tags := strings.Split(*tagsIn, ",")
+		a = audit.NewTagAudit(tags...)
+	} else {
+		a = make(audit.XMLAudit)
+	}
 	afi, err := os.Stat(*auditIn)
 	if err != nil {
 		log.Fatal("Error opening input file %s: %v", *auditIn, err)
