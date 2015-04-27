@@ -58,3 +58,12 @@ func TestString(t *testing.T) {
 		t.Errorf("String fail: expecting ?xml version=\"1.0\"? dodgy hello , got %v", str)
 	}
 }
+
+func TestSanity(t *testing.T) {
+	c := make(chan struct{})
+	select {
+	case <-c:
+		t.Error("whaa")
+	default:
+	}
+}
