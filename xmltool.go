@@ -128,7 +128,7 @@ func main() {
 	if len(*fixIn) > 0 {
 		ffi, err := os.Stat(*fixIn)
 		if err != nil {
-			log.Fatal("Error opening input file %s: %v", *fixIn, err)
+			log.Fatalf("Error opening input file %s: %v", *fixIn, err)
 		}
 		if ffi.IsDir() {
 			if len(*outdir) < 1 {
@@ -157,7 +157,7 @@ func main() {
 	}
 	afi, err := os.Stat(*auditIn)
 	if err != nil {
-		log.Fatal("Error opening input file %s: %v", *auditIn, err)
+		log.Fatalf("Error opening input file %s: %v", *auditIn, err)
 	}
 	if afi.IsDir() {
 		err = walkAudit(a, *auditIn)
