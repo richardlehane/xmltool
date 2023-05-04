@@ -6,7 +6,19 @@ Fix examples:
     ./xmltool -fix bad.xml > good.xml
     ./xmltool -fix DIR_CONTAINING_BAD_XML_FILES -outdir ~/Good
 
-These "fix" bad XML that might be dumped out of a database e.g. `<dodgy><hello>Richa&rd</hello><richard.lehane@gmail.com></dodgy>` becomes `<dodgy><hello>Richa&amp;rd</hello>&lt;richard.lehane@gmail.com&gt;</dodgy>`.
+These "fix" bad XML that might be dumped out of a database e.g.
+    
+    <dodgy>
+      <hello>Richa&rd</hello>
+      <richard.lehane@gmail.com>
+    </dodgy>
+    
+becomes
+    
+    <dodgy>
+      <hello>Richa&amp;rd</hello>
+      &lt;richard.lehane@gmail.com&gt;
+    </dodgy>
 
 Audit examples:
 
